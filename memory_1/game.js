@@ -33,3 +33,9 @@ $(document).ready(() => {
         window.location.reload();
     });
 });
+
+gamesApp.finishTheGame = (score) => {
+    console.log(score)
+    $("#cards").html(`Your score is: ${score.toFixed(2)}`);
+  };
+  

@@ -2,14 +2,22 @@
 
 var gamesApp = gamesApp || {};
 
-gamesApp.Card = function (id, cardImage, coverImage, cardTurned) {
+gamesApp.Card = function (
+  id,
+  cardImage,
+  coverImage,
+  cardTurned,
+  boardIsLocked,
+  changeBoardLock,
+  cardIsRemoved
+) {
   // holds the card html object
   var card;
   var image;
-  var cardIsLocked = false;
+  var cardIsTurned = false;
+  //   var cardIsLocked = false;
   return {
     cardImage,
-    cardIsReturned: false,
     id,
     createInstance: () => {
       // create the div tag and assign it to card
@@ -25,10 +33,14 @@ gamesApp.Card = function (id, cardImage, coverImage, cardTurned) {
       image.className = "game_card_image";
       // add on click event for card
       card.onclick = (e) => {
-        if (cardIsLocked) return;
+        if (cardIsTurned || boardIsLocked()) return;
+        changeBoardLock(true);
         $(image).fadeOut(500, () => {
+          if (image.src == cardImage) return;
           image.src = cardImage;
           $(image).fadeIn(500, () => {
+            cardIsTurned = true;
+            changeBoardLock(false);
             cardTurned(id);
           });
         });
@@ -36,15 +48,24 @@ gamesApp.Card = function (id, cardImage, coverImage, cardTurned) {
       return card;
     },
     returnTheCard: () => {
-      cardIsLocked = true;
       setTimeout(() => {
         $(image).fadeOut(500, () => {
           image.src = coverImage;
           $(image).fadeIn(500, () => {
-            cardIsLocked = false;
+            cardIsTurned = false;
+            changeBoardLock(false);
           });
         });
       }, 2000);
+    },
+    remove: () => {
+      setTimeout(() => {
+        $(image).slideUp(500, () => {
+          cardIsTurned = false;
+          changeBoardLock(false);
+          cardIsRemoved(id);
+        });
+      }, 1000);
     },
   };
 };

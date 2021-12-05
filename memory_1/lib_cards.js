@@ -8,9 +8,27 @@ gamesApp.cards = function () {
   var clickedImages = [];
   var maxImageNo = 24;
   var gameBoard = document;
-  var imageList = range(1, maxImageNo * 2 + 1).map(
+  var boardLock = false;
+  var imageList = range(1, maxImageNo + 1).map(
     (num) => `./images/card_${Math.ceil(num / 2)}.png`
   );
+  var totalMoves = 0;
+  var correctMoves = 0;
+  function cardIsRemoved(id) {
+    cards = cards.filter((card) => card.id != id);
+    if (cards.length == 0) {
+        console.log("CM:",correctMoves)
+        console.log("TM:",totalMoves)
+      gamesApp.finishTheGame((100 * correctMoves) / totalMoves);
+    }
+  }
+  function boardIsLocked() {
+    return boardLock;
+  }
+  function changeBoardLock(value) {
+    boardLock = value;
+  }
+
   function range(start, end) {
     var array = new Array();
     for (var i = start; i < end; i++) {
@@ -18,24 +36,16 @@ gamesApp.cards = function () {
     }
     return array;
   }
-  function shuffle(array) {
-    let currentIndex = array.length,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
+  function shuffle(oldArray) {
+    var j, x, i;
+    var newArray = oldArray;
+    for (i = newArray.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = newArray[i];
+      newArray[i] = newArray[j];
+      newArray[j] = x;
     }
-
-    return array;
+    return newArray;
   }
   function refreshTheboard() {
     gameBoard.html("");
@@ -46,34 +56,25 @@ gamesApp.cards = function () {
   function cardTurned(id) {
     if (clickedImages.length == 0) {
       clickedImages.push(id);
+    } else if (clickedImages == id) {
+      return;
     } else {
-        console.log(clickedImages,id)
+      totalMoves++;
+      boardLock = true;
       let selectedCards = cards.filter(
         (item) => item.id == clickedImages[0] || item.id == id
       );
-      console.log(selectedCards)
       if (selectedCards[0].cardImage == selectedCards[1].cardImage) {
         selectedCards.forEach((card) => {
           card.remove();
         });
+        correctMoves++;
       } else {
         selectedCards.forEach((card) => {
           card.returnTheCard();
         });
       }
       clickedImages = [];
-
-      //   if (clickedImages[0] == cardImage) {
-      //     cards = cards.filter((item) => item.cardImage != clickedImages[0] && item.cardImage != cardImage);
-      //   } else {
-      //     var selectedCards = cards.filter((item) => {
-      //         return item.cardImage == clickedImages[0]|| item.cardImage == cardImage;
-      //     });
-      //     selectedCards.forEach((card)=>{
-      //         card.returnTheCard();
-      //     })
-
-      //   }
     }
   }
   return {
@@ -81,21 +82,25 @@ gamesApp.cards = function () {
       cardNo = num;
     },
     drawGameBoard: (board) => {
-      imageList = shuffle(imageList);
+      let selectedImages = shuffle(imageList).slice(0, cardNo);
+      let images = shuffle([...selectedImages, ...selectedImages]);
+
       cards = [];
       gameBoard = board;
-      for (let index = 0; index < cardNo * 2; index++) {
+      for (let index = 0; index < images.length; index++) {
         cards.push(
           gamesApp.Card(
             index,
-            imageList[index],
+            images[index],
             "./images/back.png",
-            cardTurned
+            cardTurned,
+            boardIsLocked,
+            changeBoardLock,
+            cardIsRemoved
           )
         );
       }
       refreshTheboard();
-      console.log(imageList);
     },
   };
 };

@@ -42,12 +42,13 @@ header p {
 /* game board css */
 .game_card {
   height: 100px;
-  width: 12.5%;
+  width: calc( 12.5% - 10px);
   cursor: pointer;
+  padding:5px 3px;
 }
 #cards {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-direction: row;
     flex-wrap: wrap;
 }
