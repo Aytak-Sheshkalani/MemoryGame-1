@@ -12,13 +12,23 @@ $(document).ready(() => {
 
     //display player name and number of cards
     name = settings.getPlayerName();
+    console.log(name);
+    if (name) {
+        document.querySelector('#play_name').innerHTML = name;
+    }
     numberOfCards = settings.getNumberOfImages();
+
+    if (numberOfCards) {
+        cards.setCardNumber(numberOfCards)
+        cards.drawGameBoard($("#cards"));
+    }
 
     $("#player_name").val(name);
     $("#num_cards").val(parseInt(numberOfCards) * 2);
 
     $("#new_game").click((e)=>{
         e.preventDefault();  
+        cards.setCorrectMoves();
         cards.setCardNumber(numberOfCards)
         cards.drawGameBoard($("#cards"));
     });
@@ -33,6 +43,7 @@ $(document).ready(() => {
         window.location.reload();
     });
 });
+
 
 gamesApp.finishTheGame = (score) => {
     console.log(score)

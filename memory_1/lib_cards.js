@@ -69,6 +69,7 @@ gamesApp.cards = function () {
           card.remove();
         });
         correctMoves++;
+        document.querySelector('#correct_tiles').innerHTML = correctMoves;
       } else {
         selectedCards.forEach((card) => {
           card.returnTheCard();
@@ -78,6 +79,11 @@ gamesApp.cards = function () {
     }
   }
   return {
+    setCorrectMoves: () => {
+      correctMoves = 0;
+      totalMoves = 0;
+      document.querySelector('#correct_tiles').innerHTML = 0;
+    },
     setCardNumber: (num) => {
       cardNo = num;
     },
