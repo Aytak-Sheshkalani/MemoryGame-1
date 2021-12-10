@@ -3,6 +3,7 @@
 var gamesApp = gamesApp || {};
 
 gamesApp.cards = function () {
+  var s = gamesApp.scores;
   var cardNo = 0;
   var cards = [];
   var clickedImages = [];
@@ -15,7 +16,8 @@ gamesApp.cards = function () {
   var totalMoves = 0;
   var correctMoves = 0;
   function cardIsRemoved(id) {
-    cards = cards.filter((card) => card.id != id);
+    cards = cards.filter((card) => card.id != id);  
+    gamesApp.settle_score((100 * correctMoves) / totalMoves);
     if (cards.length == 0) {
         console.log("CM:",correctMoves)
         console.log("TM:",totalMoves)
@@ -82,7 +84,9 @@ gamesApp.cards = function () {
     setCorrectMoves: () => {
       correctMoves = 0;
       totalMoves = 0;
+      sessionStorage.removeItem('scores');
       document.querySelector('#correct_tiles').innerHTML = 0;
+      document.querySelector('#score_value').innerHTML = 0;
     },
     setCardNumber: (num) => {
       cardNo = num;

@@ -9,6 +9,7 @@ $(document).ready(() => {
 
     let name = "",
         numberOfCards = "";
+    
 
     //display player name and number of cards
     name = settings.getPlayerName();
@@ -46,7 +47,19 @@ $(document).ready(() => {
 
 
 gamesApp.finishTheGame = (score) => {
-    console.log(score)
+    console.log(score);
     $("#cards").html(`Your score is: ${score.toFixed(2)}`);
   };
   
+
+gamesApp.settle_score = (scoree) => {
+    scoree = scoree.toFixed(2);
+    let s = gamesApp.scores;
+    s.setScore(scoree);
+
+    let score_value = "";
+    score_value = s.getScore();
+    if (score_value) {
+        document.querySelector("#score_value").innerHTML = score_value;
+    }
+}
