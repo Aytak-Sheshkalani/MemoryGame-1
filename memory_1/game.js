@@ -1,14 +1,13 @@
 "use strict";
 
-let a = [];
+let allScores = [];
 
 $(document).ready(() => {
-    
+
     let settings = gamesApp.settings;
     let scores = gamesApp.scores;
     let cards = gamesApp.cards();
 
-    // console.log(scores.getScore());
 
     $("#tabs").tabs();
 
@@ -18,7 +17,6 @@ $(document).ready(() => {
 
     //display player name and number of cards
     name = settings.getPlayerName();
-    console.log(name);
     if (name) {
         document.querySelector('#play_name').innerHTML = name;
     }
@@ -38,8 +36,8 @@ $(document).ready(() => {
     $("#player_name").val(name);
     $("#num_cards").val(parseInt(numberOfCards) * 2);
 
-    $("#new_game").click((e)=>{
-        e.preventDefault();  
+    $("#new_game").click((e) => {
+        e.preventDefault();
         cards.setCorrectMoves();
         cards.setCardNumber(numberOfCards)
         cards.drawGameBoard($("#cards"));
@@ -58,13 +56,11 @@ $(document).ready(() => {
 
 
 gamesApp.finishTheGame = (score) => {
-    
-    let b = score.toFixed(2);
-    
-    a.push(b);
-    console.log(a);
-    console.log(Math.max(...a));
-    let high_score = Math.max(...a);
+
+    let truncatedScore = score.toFixed(2);
+
+    allScores.push(truncatedScore);
+    let high_score = Math.max(...allScores);
     let s = gamesApp.scores;
     s.setScore(high_score);
 
@@ -74,5 +70,4 @@ gamesApp.finishTheGame = (score) => {
     }
 
     $("#cards").html(`Your score is: ${score.toFixed(2)}`);
-  };
-  
+};
