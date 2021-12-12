@@ -13,6 +13,10 @@ gamesApp.cards = function() {
     var imageList = range(1, maxImageNo + 1).map(
         (num) => `./images/card_${Math.ceil(num)}.png`
     );
+    imageList.forEach(image => {
+        var img = new Image();
+        img.src = image;
+    });
     var totalMoves = 0;
     var correctMoves = 0;
 
