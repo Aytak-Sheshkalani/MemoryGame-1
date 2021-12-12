@@ -1,15 +1,20 @@
 "use strict";
 
+let a = [];
+
 $(document).ready(() => {
+    
     let settings = gamesApp.settings;
     let scores = gamesApp.scores;
     let cards = gamesApp.cards();
 
+    // console.log(scores.getScore());
+
     $("#tabs").tabs();
 
     let name = "",
-        numberOfCards = "";
-    
+        numberOfCards = "",
+        high_scores = "";
 
     //display player name and number of cards
     name = settings.getPlayerName();
@@ -17,6 +22,12 @@ $(document).ready(() => {
     if (name) {
         document.querySelector('#play_name').innerHTML = name;
     }
+
+    high_scores = scores.getScore();
+    if (high_scores) {
+        document.querySelector("#score_value").innerHTML = high_scores;
+    }
+
     numberOfCards = settings.getNumberOfImages();
 
     if (numberOfCards) {
@@ -47,19 +58,21 @@ $(document).ready(() => {
 
 
 gamesApp.finishTheGame = (score) => {
-    console.log(score);
+    
+    let b = score.toFixed(2);
+    
+    a.push(b);
+    console.log(a);
+    console.log(Math.max(...a));
+    let high_score = Math.max(...a);
+    let s = gamesApp.scores;
+    s.setScore(high_score);
+
+    let high_scores = s.getScore();
+    if (high_scores) {
+        document.querySelector("#score_value").innerHTML = high_scores;
+    }
+
     $("#cards").html(`Your score is: ${score.toFixed(2)}`);
   };
   
-
-gamesApp.settle_score = (scoree) => {
-    scoree = scoree.toFixed(2);
-    let s = gamesApp.scores;
-    s.setScore(scoree);
-
-    let score_value = "";
-    score_value = s.getScore();
-    if (score_value) {
-        document.querySelector("#score_value").innerHTML = score_value;
-    }
-}
