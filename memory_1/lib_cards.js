@@ -45,7 +45,7 @@ gamesApp.cards = function() {
 
     function shuffle(oldArray) {
         var j, x, i;
-        var newArray = oldArray.splice(0);
+        var newArray = oldArray.slice();
         for (i = newArray.length - 1; i > 0; i--) {
             j = Math.floor(Math.random() * (i + 1));
             x = newArray[i];
@@ -99,7 +99,7 @@ gamesApp.cards = function() {
             cardNo = num;
         },
         drawGameBoard: (board) => {
-            let selectedImages = shuffle(imageList).slice(0, cardNo);
+            let selectedImages = shuffle(imageList).slice();
             let images = shuffle([...selectedImages, ...selectedImages]);
 
             cards = [];
@@ -118,6 +118,7 @@ gamesApp.cards = function() {
                 );
             }
             refreshTheboard();
+            console.log(imageList)
         },
     };
 };

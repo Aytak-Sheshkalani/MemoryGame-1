@@ -40,10 +40,10 @@ gamesApp.Card = function(
             card.onclick = (e) => {
                 if (cardIsTurned || boardIsLocked()) return;
                 changeBoardLock(true);
-                $(image).fadeOut(100, () => {
+                $(image).fadeOut(500, () => {
                     if (image.src == cardImage) return;
                     image.src = cardImage;
-                    $(image).fadeIn(100, () => {
+                    $(image).fadeIn(500, () => {
                         cardIsTurned = true;
                         changeBoardLock(false);
                         cardTurned(id);
@@ -54,18 +54,18 @@ gamesApp.Card = function(
         },
         returnTheCard: () => {
             setTimeout(() => {
-                $(image).fadeOut(100, () => {
+                $(image).fadeOut(500, () => {
                     image.src = coverImage;
-                    $(image).fadeIn(100, () => {
+                    $(image).fadeIn(500, () => {
                         cardIsTurned = false;
                         changeBoardLock(false);
                     });
                 });
-            }, 800);
+            }, 2000);
         },
         remove: () => {
             setTimeout(() => {
-                $(image).slideUp(100, () => {
+                $(image).slideUp(500, () => {
                     cardIsTurned = false;
                     changeBoardLock(false);
                     cardIsRemoved(id);
