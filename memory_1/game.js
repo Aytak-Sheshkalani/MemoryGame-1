@@ -36,7 +36,6 @@ $(document).ready(() => {
 
   $("#new_game").click((e) => {
     e.preventDefault();
-    console.log(cards);
     cards.setCorrectMoves();
     cards.setCardNumber(numberOfCards);
     cards.drawGameBoard($("#cards"));
