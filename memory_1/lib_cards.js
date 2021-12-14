@@ -101,7 +101,6 @@ gamesApp.cards = function() {
         drawGameBoard: (board) => {
             let selectedImages = shuffle(imageList).slice();
             let images = shuffle([...selectedImages, ...selectedImages]);
-
             cards = [];
             gameBoard = board;
             for (let index = 0; index < images.length; index++) {
@@ -118,7 +117,6 @@ gamesApp.cards = function() {
                 );
             }
             refreshTheboard();
-            console.log(imageList)
         },
     };
 };

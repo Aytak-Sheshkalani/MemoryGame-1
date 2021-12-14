@@ -3,71 +3,70 @@
 let allScores = [];
 
 $(document).ready(() => {
+  let settings = gamesApp.settings;
+  let scores = gamesApp.scores;
+  let cards = gamesApp.cards();
 
-    let settings = gamesApp.settings;
-    let scores = gamesApp.scores;
-    let cards = gamesApp.cards();
+  $("#tabs").tabs();
 
+  let name = "",
+    numberOfCards = "",
+    high_scores = "";
 
-    $("#tabs").tabs();
+  //display player name and number of cards
+  name = settings.getPlayerName();
+  if (name) {
+    document.querySelector("#play_name").innerHTML = name;
+  }
 
-    let name = "",
-        numberOfCards = "",
-        high_scores = "";
+  high_scores = scores.getScore();
+  if (high_scores) {
+    document.querySelector("#score_value").innerHTML = high_scores;
+  }
 
-    //display player name and number of cards
-    name = settings.getPlayerName();
-    if (name) {
-        document.querySelector('#play_name').innerHTML = name;
-    }
+  numberOfCards = settings.getNumberOfImages();
 
-    high_scores = scores.getScore();
-    if (high_scores) {
-        document.querySelector("#score_value").innerHTML = high_scores;
-    }
+  if (numberOfCards) {
+    cards.setCardNumber(numberOfCards);
+    cards.drawGameBoard($("#cards"));
+  }
 
-    numberOfCards = settings.getNumberOfImages();
+  $("#player_name").val(name);
+  $("#num_cards").val(parseInt(numberOfCards) * 2);
 
-    if (numberOfCards) {
-        cards.setCardNumber(numberOfCards)
-        cards.drawGameBoard($("#cards"));
-    }
+  $("#new_game").click((e) => {
+    e.preventDefault();
+    console.log(cards);
+    cards.setCorrectMoves();
+    cards.setCardNumber(numberOfCards);
+    cards.drawGameBoard($("#cards"));
+  });
+  $("#save_settings").click(() => {
+    const playerName = $("#player_name").val();
+    const numberOfImages = $("#num_cards").val();
 
-    $("#player_name").val(name);
-    $("#num_cards").val(parseInt(numberOfCards) * 2);
+    // save settings
+    settings.setPlayerName(playerName);
+    settings.setNumOfImages(numberOfImages / 2);
 
-    $("#new_game").click((e) => {
-        e.preventDefault();
-        cards.setCorrectMoves();
-        cards.setCardNumber(numberOfCards)
-        cards.drawGameBoard($("#cards"));
-    });
-    $("#save_settings").click(() => {
-        const playerName = $("#player_name").val();
-        const numberOfImages = $("#num_cards").val();
-
-        // save settings
-        settings.setPlayerName(playerName);
-        settings.setNumOfImages(numberOfImages / 2);
-
-        window.location.reload();
-    });
+    window.location.reload();
+  });
 });
 
-
 gamesApp.finishTheGame = (score) => {
+  let truncatedScore = score.toFixed(2);
 
-    let truncatedScore = score.toFixed(2);
+  allScores.push(truncatedScore);
+  let high_score = Math.max(...allScores);
+  let s = gamesApp.scores;
+  s.setScore(high_score);
 
-    allScores.push(truncatedScore);
-    let high_score = Math.max(...allScores);
-    let s = gamesApp.scores;
-    s.setScore(high_score);
+  let high_scores = s.getScore();
+  if (high_scores) {
+    document.querySelector("#score_value").innerHTML = high_scores;
+  }
 
-    let high_scores = s.getScore();
-    if (high_scores) {
-        document.querySelector("#score_value").innerHTML = high_scores;
-    }
+  $("#cards").html(`Your score is: ${score.toFixed(2)}`);
 
-    $("#cards").html(`Your score is: ${score.toFixed(2)}`);
+  $(document).ready(() => $("#tabs").tabs());
 };

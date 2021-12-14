@@ -70,7 +70,7 @@ gamesApp.Card = function(
                     changeBoardLock(false);
                     cardIsRemoved(id);
                 });
-            }, 1000);
+            }, 2000);
         },
     };
 };
