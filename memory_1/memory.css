@@ -2,12 +2,12 @@ body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 100%;
   background-color: black;
-  width: 950px;
+  width: 750px;
   margin: 0 auto;
   padding: 0 2em 1em;
 }
 h1 {
-  font-size: 300%;
+  font-size: 160%;
   color: white;
   font-weight: bold;
   margin-bottom: 0.5em;
@@ -21,7 +21,8 @@ footer {
   font-size: 60%;
   width: 850px;
   margin: 0 auto;
-  padding: 0 75em 1em;
+  padding: 0 65em 1em;
+  color: aliceblue;
 }
 label {
   float: left;
@@ -55,7 +56,7 @@ legend {
 #correct {
   float: left;
   color: rgb(177, 161, 161);
-  font-size: 130%;
+  font-size: 100%;
   float: right;
   font-weight: bolder;
 }
@@ -66,7 +67,7 @@ legend {
   text-decoration-line: underline;
   color: red;
   font-weight: bold;
-  font-size: 180%;
+  font-size: 110%;
 }
 .clear {
   clear: both;
@@ -74,13 +75,14 @@ legend {
 
 /* game board css */
 .game_card {
-  height: 100%;
+  height: auto;
   width: calc(12.5% - 10px);
   cursor: pointer;
   padding: 5px 3px;
   background-color: #3d1f1f;
   transform-style: preserve-3d;
   perspective: 500px;
+  position: relative;
 }
 #cards {
   display: flex;
